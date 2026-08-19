@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Syed Abdullah Ayaz — Frontend Developer</title>
+
+    <meta
+      name="description"
+      content="Frontend developer building accessible, responsive interfaces with HTML, CSS, JavaScript and React."
+    />
+    <meta name="author" content="Syed Abdullah Ayaz" />
+    <meta name="theme-color" content="#4f46e5" />
+
+    <!-- Open Graph: what shows when the link is shared -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Syed Abdullah Ayaz — Frontend Developer" />
+    <meta
+      property="og:description"
+      content="Frontend developer building accessible, responsive interfaces."
+    />
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to main content</a>
+
+    <header class="header">
+      <div class="header__inner">
+        <a class="logo" href="#top"> SA<span>.</span> </a>
+
+        <nav aria-label="Primary">
+          <ul class="nav">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <!-- ---------- hero ---------- -->
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero__inner">
+          <div class="hero__text">
+            <p class="eyebrow">Frontend Developer</p>
+            <h1 id="hero-title">
+              I build interfaces that stay usable at <em>every</em> screen size.
+            </h1>
+            <p class="lead">
+              Currently a frontend intern working through HTML, CSS, JavaScript and React — with a
+              stubborn interest in accessibility and clean, readable markup.
+            </p>
+
+            <div class="hero__actions">
+              <a class="btn" href="#projects">See my work</a>
+              <a class="btn btn--ghost" href="#contact">Get in touch</a>
+            </div>
+
+            <ul class="stats">
+              <li><b>12+</b><span>Projects built</span></li>
+              <li><b>5</b><span>Core technologies</span></li>
+              <li><b>100%</b><span>Responsive</span></li>
+            </ul>
+          </div>
+
+          <div class="hero__visual" aria-hidden="true">
+            <div class="window">
+              <div class="window__bar"><span></span><span></span><span></span></div>
+              <pre class="window__code">
+<span class="c-key">const</span> <span class="c-var">developer</span> = {
+  name: <span class="c-str">"Syed Abdullah Ayaz"</span>,
+  role: <span class="c-str">"Frontend Developer"</span>,
+  stack: [<span class="c-str">"HTML"</span>, <span class="c-str">"CSS"</span>, <span class="c-str">"JS"</span>, <span class="c-str">"React"</span>],
+  focus: <span class="c-str">"accessible UI"</span>,
+  available: <span class="c-key">true</span>
+};</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- about ---------- -->
+      <section class="section" id="about" aria-labelledby="about-title">
+        <div class="section__inner">
+          <p class="eyebrow">01 — About</p>
+          <h2 id="about-title">A little background</h2>
+
+          <div class="about">
+            <div class="about__text">
+              <p>
+                I started with plain HTML and CSS and stayed there long enough to actually
+                understand the box model, the cascade and why semantic elements matter — before
+                reaching for frameworks.
+              </p>
+              <p>
+                These days I work mostly in React, but the habits from that beginning stuck:
+                keyboard navigation gets tested, headings stay in order, and layouts are built
+                mobile-first rather than squeezed down from a desktop mockup afterwards.
+              </p>
+              <p>
+                Outside structured work I rebuild things I use daily to see how they're put together
+                — it's the fastest way I've found to learn a pattern properly.
+              </p>
+            </div>
+
+            <aside class="about__panel" aria-labelledby="facts-title">
+              <h3 id="facts-title">Quick facts</h3>
+              <dl>
+                <div>
+                  <dt>Based in</dt>
+                  <dd>Lahore, Pakistan</dd>
+                </div>
+                <div>
+                  <dt>Focus</dt>
+                  <dd>Accessible, responsive interfaces</dd>
+                </div>
+                <div>
+                  <dt>Currently</dt>
+                  <dd>Frontend intern</dd>
+                </div>
+                <div>
+                  <dt>Open to</dt>
+                  <dd>Junior frontend roles</dd>
+                </div>
+              </dl>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- skills ---------- -->
+      <section class="section section--alt" id="skills" aria-labelledby="skills-title">
+        <div class="section__inner">
+          <p class="eyebrow">02 — Skills</p>
+          <h2 id="skills-title">What I work with</h2>
+
+          <div class="skills">
+            <article class="skill">
+              <h3>Markup &amp; styling</h3>
+              <ul class="tags">
+                <li>HTML5</li>
+                <li>CSS3</li>
+                <li>Flexbox</li>
+                <li>CSS Grid</li>
+                <li>Custom properties</li>
+                <li>Responsive design</li>
+              </ul>
+            </article>
+
+            <article class="skill">
+              <h3>JavaScript</h3>
+              <ul class="tags">
+                <li>ES6+</li>
+                <li>DOM APIs</li>
+                <li>Fetch &amp; async</li>
+                <li>ES modules</li>
+                <li>localStorage</li>
+              </ul>
+            </article>
+
+            <article class="skill">
+              <h3>React</h3>
+              <ul class="tags">
+                <li>Hooks</li>
+                <li>React Router</li>
+                <li>Component design</li>
+                <li>Controlled forms</li>
+                <li>Vite</li>
+              </ul>
+            </article>
+
+            <article class="skill">
+              <h3>Tooling</h3>
+              <ul class="tags">
+                <li>Git &amp; GitHub</li>
+                <li>VS Code</li>
+                <li>npm</li>
+                <li>ESLint</li>
+                <li>Prettier</li>
+                <li>DevTools</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- projects ---------- -->
+      <section class="section" id="projects" aria-labelledby="projects-title">
+        <div class="section__inner">
+          <p class="eyebrow">03 — Projects</p>
+          <h2 id="projects-title">Selected work</h2>
+          <p class="section__lead">
+            Each of these was built to learn a specific thing properly rather than to fill a
+            portfolio.
+          </p>
+
+          <div class="projects">
+            <article class="project">
+              <div class="project__thumb project__thumb--a" aria-hidden="true">
+                <span>{ }</span>
+              </div>
+              <div class="project__body">
+                <h3>Task Manager</h3>
+                <p>
+                  Full CRUD in vanilla JavaScript — live search, filters, sorting, localStorage
+                  persistence and an API panel with proper loading, empty and error states.
+                </p>
+                <ul class="tags tags--sm">
+                  <li>JavaScript</li>
+                  <li>ES Modules</li>
+                  <li>localStorage</li>
+                </ul>
+                <p class="project__links">
+                  <a href="https://github.com/dev4bdullah" rel="noopener">Source</a>
+                </p>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project__thumb project__thumb--b" aria-hidden="true">
+                <span>&lt;/&gt;</span>
+              </div>
+              <div class="project__body">
+                <h3>React UI Playground</h3>
+                <p>
+                  Seventeen documented components — modal, tabs, accordion, dropdown, toast — each
+                  with variants, live examples and a source toggle.
+                </p>
+                <ul class="tags tags--sm">
+                  <li>React</li>
+                  <li>Hooks</li>
+                  <li>Vite</li>
+                </ul>
+                <p class="project__links">
+                  <a href="https://github.com/dev4bdullah" rel="noopener">Source</a>
+                </p>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project__thumb project__thumb--c" aria-hidden="true">
+                <span>⌘</span>
+              </div>
+              <div class="project__body">
+                <h3>Router Shop</h3>
+                <p>
+                  A routed catalogue where every filter lives in the URL, so any view can be
+                  bookmarked or shared. Nested layouts and cancelled requests throughout.
+                </p>
+                <ul class="tags tags--sm">
+                  <li>React Router</li>
+                  <li>Custom hooks</li>
+                  <li>REST API</li>
+                </ul>
+                <p class="project__links">
+                  <a href="https://github.com/dev4bdullah" rel="noopener">Source</a>
+                </p>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project__thumb project__thumb--d" aria-hidden="true">
+                <span>#</span>
+              </div>
+              <div class="project__body">
+                <h3>This portfolio</h3>
+                <p>
+                  HTML and CSS only — no JavaScript, no framework. A 12-column grid, fluid type
+                  through <code>clamp()</code>, and a full keyboard path.
+                </p>
+                <ul class="tags tags--sm">
+                  <li>HTML5</li>
+                  <li>CSS Grid</li>
+                  <li>Accessibility</li>
+                </ul>
+                <p class="project__links">
+                  <a href="https://github.com/dev4bdullah" rel="noopener">Source</a>
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- contact ---------- -->
+      <section class="section section--alt" id="contact" aria-labelledby="contact-title">
+        <div class="section__inner">
+          <p class="eyebrow">04 — Contact</p>
+          <h2 id="contact-title">Let's talk</h2>
+          <p class="section__lead">
+            Open to junior frontend roles and freelance work. The fastest way to reach me is email.
+          </p>
+
+          <div class="contact">
+            <ul class="contact__links">
+              <li>
+                <a href="mailto:hello@example.com">
+                  <strong>Email</strong>
+                  <span>hello@example.com</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/syed-abdullah-ayaz/" rel="noopener">
+                  <strong>LinkedIn</strong>
+                  <span>syed-abdullah-ayaz</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/dev4bdullah" rel="noopener">
+                  <strong>GitHub</strong>
+                  <span>dev4bdullah</span>
+                </a>
+              </li>
+            </ul>
+
+            <!-- No JS, so this posts nowhere. Swap the action for Formspree or Netlify Forms. -->
+            <form class="form" action="#" method="post">
+              <h3>Send a message</h3>
+
+              <div class="field">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" required />
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required />
+              </div>
+
+              <div class="field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+              </div>
+
+              <button class="btn" type="submit">Send message</button>
+              <p class="form__note">
+                Static page — point the form <code>action</code> at Formspree or Netlify Forms to
+                make it deliver.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <p>© 2026 Syed Abdullah Ayaz</p>
+        <nav aria-label="Footer">
+          <ul>
+            <li><a href="#top">Top</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

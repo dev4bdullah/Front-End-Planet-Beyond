@@ -1,0 +1,495 @@
+/* Task 4 — 12-column CSS Grid, Flexbox rows, breakpoints at 576 / 768 / 1024.
+   Written mobile-first: base rules are the phone layout, each min-width query adds to it. */
+
+:root {
+  --bg: #f5f6f9;
+  --card: #ffffff;
+  --fg: #161a23;
+  --muted: #6b7280;
+  --line: #dde0e7;
+  --brand: #4f46e5;
+  --brand-soft: #e8e7fb;
+  --accent: #059669;
+  --gap: 0.75rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* ---------- header: Flexbox, one row, wraps by itself ---------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1.25rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font-weight: 700;
+}
+.logo span {
+  color: var(--brand);
+}
+
+.site-header ul {
+  display: flex;
+  gap: 0.3rem;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.site-header a {
+  padding: 0.35rem 0.7rem;
+  border-radius: 7px;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+}
+.site-header a:hover {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ---------- breakpoint readout ---------- */
+
+.badge {
+  max-width: 1080px;
+  margin: 1rem auto 0;
+  padding: 0.5rem 0.9rem;
+  background: var(--brand-soft);
+  border: 1px solid var(--brand);
+  border-radius: 9px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--brand);
+  text-align: center;
+}
+
+/* Only one .bp is visible at a time — the later query wins the cascade */
+.bp {
+  display: none;
+}
+.bp--xs {
+  display: inline;
+}
+
+/* ---------- page shell ---------- */
+
+.shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+h1 {
+  font-size: 1.6rem;
+  letter-spacing: -0.015em;
+}
+h2 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line);
+}
+h3 {
+  font-size: 0.9rem;
+  margin: 1.25rem 0 0.5rem;
+}
+h4 {
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+p {
+  font-size: 0.92rem;
+}
+.lead {
+  color: var(--muted);
+  font-size: 1rem;
+}
+.muted {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+code,
+kbd {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+}
+
+section > p {
+  margin-bottom: 0.5rem;
+}
+
+.note {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 9px 9px 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.86rem;
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+/* ---------- the 12-column grid ----------
+   One track definition; children opt into a span.
+   minmax(0, 1fr) instead of 1fr stops long words blowing out a column. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.ruler span {
+  background: var(--brand-soft);
+  border: 1px dashed var(--brand);
+  border-radius: 6px;
+  padding: 0.4rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.demo > div {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brand);
+  border-radius: 0 8px 8px 0;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+/* Base: every span is full width because there is only one column */
+.col-3,
+.col-4,
+.col-6,
+.col-8,
+.col-12 {
+  grid-column: span 1;
+}
+
+/* ---------- named-area page shell ---------- */
+
+.layout {
+  display: grid;
+  gap: var(--gap);
+  grid-template-areas:
+    "nav"
+    "main"
+    "side"
+    "foot";
+}
+
+.layout > div {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.layout__nav {
+  grid-area: nav;
+}
+.layout__main {
+  grid-area: main;
+  min-height: 120px;
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.layout__side {
+  grid-area: side;
+}
+.layout__foot {
+  grid-area: foot;
+}
+
+/* ---------- Flexbox rows ---------- */
+
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+button {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #fff;
+  background: var(--brand);
+}
+button:hover {
+  background: #4338ca;
+}
+
+.ghost {
+  background: var(--card);
+  color: var(--fg);
+  border: 1px solid var(--line);
+}
+.ghost:hover {
+  background: var(--line);
+}
+
+.flex-row {
+  display: flex;
+  gap: var(--gap);
+  flex-wrap: wrap;
+}
+
+/* grow, shrink, and wrap once each item drops under 220px —
+   no media query involved */
+.tile {
+  flex: 1 1 220px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.9rem;
+}
+.tile p {
+  font-size: 0.83rem;
+  color: var(--muted);
+}
+
+/* ---------- table ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.84rem;
+}
+
+caption {
+  caption-side: bottom;
+  padding-top: 0.5rem;
+  font-size: 0.79rem;
+  color: var(--muted);
+  text-align: left;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+thead th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.site-footer {
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+/* ============================================================
+   BREAKPOINT 1 — 576px, large phones: 4 columns
+   ============================================================ */
+
+@media (min-width: 576px) {
+  :root {
+    --gap: 0.85rem;
+  }
+
+  .bp {
+    display: none;
+  }
+  .bp--sm {
+    display: inline;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ruler span:nth-child(n + 5) {
+    display: none;
+  }
+
+  .col-3 {
+    grid-column: span 2;
+  }
+  .col-4 {
+    grid-column: span 2;
+  }
+  .col-6 {
+    grid-column: span 4;
+  }
+  .col-8 {
+    grid-column: span 4;
+  }
+  .col-12 {
+    grid-column: span 4;
+  }
+}
+
+/* ============================================================
+   BREAKPOINT 2 — 768px, tablets: 6 columns, sidebar appears
+   ============================================================ */
+
+@media (min-width: 768px) {
+  :root {
+    --gap: 1rem;
+  }
+
+  .bp {
+    display: none;
+  }
+  .bp--md {
+    display: inline;
+  }
+
+  .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .ruler span:nth-child(n + 5) {
+    display: block;
+  }
+  .ruler span:nth-child(n + 7) {
+    display: none;
+  }
+
+  .col-3 {
+    grid-column: span 3;
+  }
+  .col-4 {
+    grid-column: span 2;
+  }
+  .col-6 {
+    grid-column: span 3;
+  }
+  .col-8 {
+    grid-column: span 6;
+  }
+  .col-12 {
+    grid-column: span 6;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 200px;
+    grid-template-areas:
+      "nav  nav"
+      "main side"
+      "foot foot";
+  }
+}
+
+/* ============================================================
+   BREAKPOINT 3 — 1024px, desktop: the full 12 columns
+   ============================================================ */
+
+@media (min-width: 1024px) {
+  :root {
+    --gap: 1.15rem;
+  }
+
+  .bp {
+    display: none;
+  }
+  .bp--lg {
+    display: inline;
+  }
+
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .ruler span {
+    display: block;
+  }
+
+  .col-3 {
+    grid-column: span 3;
+  }
+  .col-4 {
+    grid-column: span 4;
+  }
+  .col-6 {
+    grid-column: span 6;
+  }
+  .col-8 {
+    grid-column: span 8;
+  }
+  .col-12 {
+    grid-column: span 12;
+  }
+
+  .layout {
+    grid-template-columns: 160px minmax(0, 1fr) 220px;
+    grid-template-areas:
+      "nav main side"
+      "foot foot foot";
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

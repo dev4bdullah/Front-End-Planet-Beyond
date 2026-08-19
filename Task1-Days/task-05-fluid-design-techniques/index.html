@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Task 5 — CSS custom properties with clamp, min, max and calc for fluid type and spacing"
+    />
+    <title>Task 5 — Fluid Design Techniques</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <p class="logo">Fluid<span>CSS</span></p>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#vars">Variables</a></li>
+          <li><a href="#clamp">clamp()</a></li>
+          <li><a href="#minmax">min() / max()</a></li>
+          <li><a href="#calc">calc()</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <h1>Type and space that scale on their own</h1>
+      <p class="lead">
+        Not one media query in this file. Resize the window slowly — the heading above, the spacing
+        between blocks and the container width all move continuously instead of jumping at fixed
+        widths.
+      </p>
+
+      <section id="vars" aria-labelledby="vars-title">
+        <h2 id="vars-title">Custom properties as the single source of truth</h2>
+        <p>
+          Every colour, size and spacing step is declared once on <code>:root</code>. Change the
+          value there and it updates everywhere — including inside <code>calc()</code> and
+          <code>clamp()</code>, which plain Sass variables can't do at runtime.
+        </p>
+
+        <h3>The spacing scale</h3>
+        <div class="scale">
+          <div class="scale__row">
+            <span>--space-3xs</span><i style="width: var(--space-3xs)"></i>
+          </div>
+          <div class="scale__row">
+            <span>--space-2xs</span><i style="width: var(--space-2xs)"></i>
+          </div>
+          <div class="scale__row">
+            <span>--space-xs</span><i style="width: var(--space-xs)"></i>
+          </div>
+          <div class="scale__row">
+            <span>--space-sm</span><i style="width: var(--space-sm)"></i>
+          </div>
+          <div class="scale__row">
+            <span>--space-md</span><i style="width: var(--space-md)"></i>
+          </div>
+          <div class="scale__row">
+            <span>--space-lg</span><i style="width: var(--space-lg)"></i>
+          </div>
+          <div class="scale__row">
+            <span>--space-xl</span><i style="width: var(--space-xl)"></i>
+          </div>
+        </div>
+        <p class="note">
+          Those bars grow as you widen the window — each step is itself a
+          <code>clamp()</code>, so the whole rhythm of the page scales together.
+        </p>
+      </section>
+
+      <section id="clamp" aria-labelledby="clamp-title">
+        <h2 id="clamp-title">clamp() for typography</h2>
+        <p>
+          <code>clamp(min, preferred, max)</code> — the middle value is usually a
+          <code>vw</code> expression, so the browser interpolates smoothly and the outer two stop it
+          getting silly at either extreme.
+        </p>
+
+        <div class="type-demo">
+          <p class="t-xl">Display — clamp(2rem, 1.2rem + 4vw, 3.5rem)</p>
+          <p class="t-lg">Heading — clamp(1.4rem, 1.1rem + 1.6vw, 2.1rem)</p>
+          <p class="t-md">Subheading — clamp(1.1rem, 1rem + 0.6vw, 1.4rem)</p>
+          <p class="t-base">Body — clamp(0.95rem, 0.9rem + 0.25vw, 1.08rem)</p>
+          <p class="t-sm">Small print — clamp(0.8rem, 0.77rem + 0.15vw, 0.88rem)</p>
+        </div>
+
+        <p class="note">
+          Always keep a <code>rem</code> term in the middle value. A pure <code>vw</code> font size
+          ignores the user's browser zoom, which is an accessibility failure.
+        </p>
+      </section>
+
+      <section id="minmax" aria-labelledby="minmax-title">
+        <h2 id="minmax-title">min() and max() for widths</h2>
+
+        <div class="cards">
+          <article class="card">
+            <h3><code>min()</code> — a ceiling</h3>
+            <p>
+              <code>width: min(100%, 60ch)</code> reads as "60 characters, but never wider than the
+              parent". It replaces a <code>max-width</code> plus a mobile override.
+            </p>
+            <div class="box box--min">min(100%, 60ch)</div>
+          </article>
+
+          <article class="card">
+            <h3><code>max()</code> — a floor</h3>
+            <p>
+              <code>padding-inline: max(1rem, 4vw)</code> keeps at least 1rem of breathing room on
+              phones while letting big screens get generous margins.
+            </p>
+            <div class="box box--max">max(1rem, 4vw) padding</div>
+          </article>
+        </div>
+
+        <p class="note">
+          Counter-intuitive at first: <code>min()</code> sets the <em>maximum</em> size because it
+          picks the smaller of the two, and <code>max()</code> sets the <em>minimum</em>.
+        </p>
+      </section>
+
+      <section id="calc" aria-labelledby="calc-title">
+        <h2 id="calc-title">calc() for the arithmetic</h2>
+        <p>
+          <code>calc()</code> mixes units that otherwise can't meet — percentages with rems,
+          viewport units with pixels — and it reads custom properties, so the maths stays in one
+          place.
+        </p>
+
+        <ul class="list">
+          <li>
+            <code>height: calc(100vh - var(--header-h))</code> — a full-height panel that accounts
+            for the sticky header
+          </li>
+          <li>
+            <code>width: calc(50% - var(--space-sm) / 2)</code> — two columns that share a gutter
+            exactly
+          </li>
+          <li>
+            <code>padding: calc(var(--space-sm) * 1.5)</code> — a half-step without inventing a new
+            variable
+          </li>
+          <li>
+            <code>--space-md: calc(var(--space-sm) * 1.5)</code> — one variable derived from
+            another, so the whole scale stays proportional
+          </li>
+        </ul>
+
+        <div class="calc-demo">
+          <div class="calc-demo__col">calc(50% - gap/2)</div>
+          <div class="calc-demo__col">calc(50% - gap/2)</div>
+        </div>
+
+        <p class="note">
+          Spaces around the operators are mandatory: <code>calc(100%-2rem)</code> is invalid and
+          silently drops the whole declaration. <code>calc(100% - 2rem)</code> works.
+        </p>
+      </section>
+
+      <section aria-labelledby="why-title">
+        <h2 id="why-title">Why this beats more breakpoints</h2>
+        <table>
+          <caption>
+            Same goal, two approaches
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Breakpoints</th>
+              <th scope="col">Fluid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Type jumps at 576, 768, 1024</td>
+              <td>Type moves continuously at every width</td>
+            </tr>
+            <tr>
+              <td>Three declarations per size</td>
+              <td>One <code>clamp()</code></td>
+            </tr>
+            <tr>
+              <td>Breaks on widths you didn't test</td>
+              <td>Correct at every width by construction</td>
+            </tr>
+            <tr>
+              <td>New device size means new query</td>
+              <td>Nothing to change</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Breakpoints still earn their place for genuine layout changes — a sidebar moving beside
+          the content, as in task 4. Use them for structure, use fluid values for size.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="muted">Day 1 · Task 5 — Fluid Design Techniques · zero media queries</p>
+    </footer>
+  </body>
+</html>

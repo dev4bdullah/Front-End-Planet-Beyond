@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Task 4 — 12-column CSS Grid with Flexbox rows and breakpoints at 576, 768 and 1024px"
+    />
+    <title>Task 4 — Responsive Layout</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <p class="logo">Grid<span>12</span></p>
+      <!-- Flexbox is the right tool for a single row of items -->
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#grid">Grid</a></li>
+          <li><a href="#flex">Flexbox</a></li>
+          <li><a href="#breaks">Breakpoints</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Live readout of which breakpoint is active, done in pure CSS -->
+    <p class="badge" aria-live="polite">
+      Current breakpoint:
+      <span class="bp bp--xs">under 576px — mobile</span>
+      <span class="bp bp--sm">576px+ — large mobile</span>
+      <span class="bp bp--md">768px+ — tablet</span>
+      <span class="bp bp--lg">1024px+ — desktop</span>
+    </p>
+
+    <main class="shell">
+      <h1>12-column grid, three breakpoints</h1>
+      <p class="lead">
+        Drag the browser edge, or press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> for the device
+        toolbar. Every block below reflows at 576, 768 and 1024 pixels.
+      </p>
+
+      <section id="grid" aria-labelledby="grid-title">
+        <h2 id="grid-title">The 12 columns</h2>
+        <p>
+          One track definition —
+          <code>grid-template-columns: repeat(12, minmax(0, 1fr))</code> — and children claim spans
+          from it. The ruler shows all twelve on desktop; they collapse to six, then four, then one.
+        </p>
+
+        <div class="grid ruler">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span>
+        </div>
+
+        <h3>Span utilities</h3>
+        <div class="grid demo">
+          <div class="col-12">col-12 — full width</div>
+          <div class="col-6">col-6</div>
+          <div class="col-6">col-6</div>
+          <div class="col-4">col-4</div>
+          <div class="col-4">col-4</div>
+          <div class="col-4">col-4</div>
+          <div class="col-3">col-3</div>
+          <div class="col-3">col-3</div>
+          <div class="col-3">col-3</div>
+          <div class="col-3">col-3</div>
+          <div class="col-8">col-8 — main</div>
+          <div class="col-4">col-4 — sidebar</div>
+        </div>
+
+        <h3>A real page shell</h3>
+        <p>
+          Named grid areas make the intent readable, and re-ordering at a breakpoint is a one-line
+          change to <code>grid-template-areas</code> — no HTML edits.
+        </p>
+
+        <div class="layout">
+          <div class="layout__nav">nav</div>
+          <div class="layout__main">main content</div>
+          <div class="layout__side">aside</div>
+          <div class="layout__foot">footer</div>
+        </div>
+      </section>
+
+      <section id="flex" aria-labelledby="flex-title">
+        <h2 id="flex-title">Flexbox for the simple rows</h2>
+        <p>
+          Grid is for two-dimensional layout. When items just need to sit in a row and wrap, Flexbox
+          is less code and needs no breakpoints at all — the header nav above is one, and so are
+          these.
+        </p>
+
+        <h3>Wrapping toolbar</h3>
+        <div class="toolbar">
+          <button type="button">All</button>
+          <button type="button">Active</button>
+          <button type="button">Archived</button>
+          <span class="spacer" aria-hidden="true"></span>
+          <button type="button" class="ghost">Sort</button>
+          <button type="button" class="ghost">Export</button>
+        </div>
+
+        <h3>Card row that wraps on its own</h3>
+        <div class="flex-row">
+          <article class="tile">
+            <h4>flex: 1 1 220px</h4>
+            <p>Grows to fill, shrinks when cramped, wraps below 220px.</p>
+          </article>
+          <article class="tile">
+            <h4>No media query</h4>
+            <p>The wrap point comes from the basis, not from a breakpoint.</p>
+          </article>
+          <article class="tile">
+            <h4>Fewer rules</h4>
+            <p>Reach for Grid when rows <em>and</em> columns both matter.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="breaks" aria-labelledby="breaks-title">
+        <h2 id="breaks-title">The three breakpoints</h2>
+
+        <table>
+          <caption>
+            Mobile-first: base styles apply everywhere, each query adds on top
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Query</th>
+              <th scope="col">Target</th>
+              <th scope="col">Grid becomes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>base (no query)</td>
+              <td>under 576px</td>
+              <td>1 column — everything stacks</td>
+            </tr>
+            <tr>
+              <td><code>min-width: 576px</code></td>
+              <td>large phones</td>
+              <td>4 columns</td>
+            </tr>
+            <tr>
+              <td><code>min-width: 768px</code></td>
+              <td>tablets</td>
+              <td>6 columns</td>
+            </tr>
+            <tr>
+              <td><code>min-width: 1024px</code></td>
+              <td>laptops and up</td>
+              <td>all 12 columns</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="note">
+          Written mobile-first with <code>min-width</code>, so the smallest screen gets the simplest
+          CSS and never has to undo desktop rules. Task 5 shows how <code>clamp()</code> removes the
+          need for many of these queries entirely.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="muted">Day 1 · Task 4 — Responsive Layout</p>
+    </footer>
+  </body>
+</html>

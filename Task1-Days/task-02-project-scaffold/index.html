@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Task 2 — project scaffold with a linked stylesheet and Live Server"
+    />
+    <title>Task 2 — Project Scaffold</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  </head>
+
+  <body>
+    <div class="page">
+      <h1>Project scaffold</h1>
+      <p class="lead">
+        If this text is styled, <code>style.css</code> is linked correctly. If the border below is
+        green, the file loaded from the right path.
+      </p>
+
+      <div class="check">
+        <p><strong>Stylesheet linked</strong></p>
+        <p class="muted">The green edge is set in style.css, not inline.</p>
+      </div>
+
+      <h2>Folder structure</h2>
+      <pre>
+task-02-project-scaffold/
+├── index.html
+├── style.css
+└── assets/
+    ├── favicon.svg
+    └── README.md</pre
+      >
+
+      <h2>Hot reload test</h2>
+      <ol>
+        <li>Right-click <code>index.html</code> → <strong>Open with Live Server</strong></li>
+        <li>Check the URL reads <code>127.0.0.1:5500</code>, not <code>file:///</code></li>
+        <li>Open <code>style.css</code>, change <code>--accent</code> to <code>hotpink</code></li>
+        <li>Press <code>Ctrl+S</code> — the page recolours without you touching the browser</li>
+      </ol>
+
+      <h2>Boilerplate checklist</h2>
+      <ul class="checklist">
+        <li><code>&lt;!DOCTYPE html&gt;</code> — standards mode, not quirks mode</li>
+        <li><code>lang="en"</code> on the html tag — screen readers pick the right voice</li>
+        <li><code>charset="UTF-8"</code> — first thing in the head, so accents render</li>
+        <li><code>viewport</code> meta — without it, task 4's breakpoints do nothing on phones</li>
+        <li><code>meta description</code> — what search results show</li>
+        <li>stylesheet linked in the head, not the body</li>
+      </ul>
+    </div>
+  </body>
+</html>
