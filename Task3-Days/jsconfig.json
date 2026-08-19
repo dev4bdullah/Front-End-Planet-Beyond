@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@shared/*": ["src/shared/*"],
+      "@styles/*": ["src/styles/*"],
+      "@tasks/*": ["src/tasks/*"],
+      "@ui/*": ["src/tasks/task-04-reusable-base-components/ui/*"],
+      "@interactive/*": ["src/tasks/task-05-interactive-components/ui/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
