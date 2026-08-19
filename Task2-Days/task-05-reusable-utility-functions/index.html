@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 5 — Reusable Utility Functions</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 5</p>
+        <h1>Reusable Utility Functions</h1>
+        <p class="lead">
+          Twenty small helpers in one module, each called live below. Every edge case — an invalid
+          date, an unknown status, division by zero — is exercised on purpose.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Every helper, called and printed</h2>
+        <div class="out" id="out"></div>
+      </section>
+
+      <section class="card stack">
+        <h2>debounce, which needs input to show anything</h2>
+        <div>
+          <label for="debounceInput">Type quickly</label>
+          <input
+            type="text"
+            id="debounceInput"
+            placeholder="Every keystroke counts, one call fires"
+          />
+        </div>
+        <p class="small muted" id="debounceOut">raw keystrokes: 0</p>
+        <p class="note">
+          The counter climbs on every keypress, but the debounced call only fires 400ms after you
+          stop. That's the difference between one request per keystroke and one per search.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>What makes these reusable</h2>
+        <ul class="plain small">
+          <li>
+            <strong>Pure.</strong> Same input, same output, every time. No DOM, no storage, no fetch
+            — so they can't break depending on when you call them.
+          </li>
+          <li>
+            <strong>One job each.</strong> <code>formatDate</code> formats; it doesn't also decide
+            whether something is overdue. That's <code>isOverdue</code>.
+          </li>
+          <li>
+            <strong>Sensible defaults.</strong> <code>truncate(text)</code> works without a length,
+            <code>pluralise(n, "task")</code> works without a plural form.
+          </li>
+          <li>
+            <strong>Defensive on bad input.</strong> <code>formatDate("nonsense")</code> returns
+            "Invalid date" instead of throwing. <code>statusLabel</code> has a fallback.
+            <code>percent(3, 0)</code> returns 0 rather than <code>NaN</code>.
+          </li>
+          <li>
+            <strong>Functions that return functions.</strong>
+            <code>byKey("hours", "desc")</code> builds a comparator, and
+            <code>debounce(fn)</code> builds a wrapped function — one helper covers every field
+            instead of one per field.
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

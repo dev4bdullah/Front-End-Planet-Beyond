@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 10 — Async JavaScript &amp; API States</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 10</p>
+        <h1>Async JavaScript &amp; API States</h1>
+        <p class="lead">
+          Four states — loading, success, empty, error — each with a button that triggers it on
+          demand. No waiting for a real failure to see the error path.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Trigger any state</h2>
+        <div class="tabs">
+          <button type="button" data-source="users">Users</button>
+          <button type="button" data-source="posts">Posts</button>
+          <button type="button" data-source="empty" class="ghost">Empty</button>
+          <button type="button" data-source="broken" class="ghost">404</button>
+          <button type="button" data-source="offline" class="ghost">No network</button>
+          <button type="button" data-source="slow" class="ghost">Timeout</button>
+        </div>
+
+        <div id="panel" aria-live="polite" aria-busy="false"></div>
+      </section>
+
+      <section class="card stack">
+        <h2>Request log</h2>
+        <div class="row">
+          <button type="button" id="raceBtn" class="ghost">Fire 3 overlapping requests</button>
+          <button type="button" id="clearLog" class="ghost">Clear log</button>
+        </div>
+        <div class="out" id="log"></div>
+        <p class="note">
+          Press the race button and watch the log — two requests get aborted and only the newest
+          writes to the screen. Without that guard, a slow first request can land after a fast
+          second one and overwrite the correct data.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>The four states</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>When</th>
+              <th>What the user sees</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Loading</td>
+              <td>request in flight</td>
+              <td>spinner plus skeleton rows, so the layout doesn't jump</td>
+            </tr>
+            <tr>
+              <td>Success</td>
+              <td>data came back with items</td>
+              <td>the list and a count</td>
+            </tr>
+            <tr>
+              <td>Empty</td>
+              <td>request worked, array was empty</td>
+              <td>a plain explanation — <em>not</em> an error</td>
+            </tr>
+            <tr>
+              <td>Error</td>
+              <td>404, 500, timeout, no network</td>
+              <td>the reason plus a working Retry button</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Empty and error are genuinely different. "No results found" is a normal outcome; "Request
+          failed" means something broke. Merging them tells the user their data is missing when it
+          simply isn't there.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>Four things in the code worth copying</h2>
+        <ul class="plain small">
+          <li>
+            <strong><code>fetch</code> doesn't reject on 404 or 500.</strong> It only rejects when
+            the request never completes. You must check <code>res.ok</code> yourself — this is the
+            single most common async bug.
+          </li>
+          <li>
+            <strong><code>AbortController</code> for cancellation.</strong> Switching tabs aborts
+            the previous request instead of leaving it to land later.
+          </li>
+          <li>
+            <strong>A timeout, because <code>fetch</code> has none.</strong> A request with no
+            response hangs forever by default. <code>setTimeout</code> plus
+            <code>controller.abort()</code> is the whole fix.
+          </li>
+          <li>
+            <strong>An incrementing request id.</strong> Even with aborts, guard the write:
+            <code>if (id !== requestId) return</code> stops a stale response overwriting fresh data.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card stack">
+        <h2>The shape to remember</h2>
+        <div class="out">
+          <div class="k">async function load() {</div>
+          <div class="k">showLoading();</div>
+          <div class="k">try {</div>
+          <div class="k">const res = await fetch(url, { signal });</div>
+          <div class="er">
+            if (!res.ok) throw new Error(res.status); <span class="dim">// easy to forget</span>
+          </div>
+          <div class="k">const data = await res.json();</div>
+          <div class="k">data.length ? showSuccess(data) : showEmpty();</div>
+          <div class="k">} catch (err) {</div>
+          <div class="k">
+            if (err.name === "AbortError") return; <span class="dim">// not a real error</span>
+          </div>
+          <div class="k">showError(err.message);</div>
+          <div class="k">}</div>
+          <div class="k">}</div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

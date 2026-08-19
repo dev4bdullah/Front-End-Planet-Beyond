@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 13 — Task Manager (Deliverable)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <section class="card stack">
+        <div class="top">
+          <div>
+            <p class="eyebrow">Day 2 · Deliverable</p>
+            <h1>Task Manager</h1>
+            <p class="lead small">
+              Vanilla JavaScript — no framework, no build step, no libraries.
+            </p>
+          </div>
+          <button type="button" id="themeBtn" class="icon-btn" aria-label="Switch theme">🌙</button>
+        </div>
+
+        <div class="stats" id="stats"></div>
+
+        <form id="taskForm" novalidate class="stack">
+          <div>
+            <label for="title">Task title</label>
+            <input
+              type="text"
+              id="title"
+              autocomplete="off"
+              placeholder="What needs doing?"
+              aria-describedby="titleError"
+            />
+            <span class="error" id="titleError" role="alert"></span>
+          </div>
+
+          <div class="two">
+            <div>
+              <label for="priority">Priority</label>
+              <select id="priority" aria-describedby="priorityError">
+                <option value="">Choose one</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+              <span class="error" id="priorityError" role="alert"></span>
+            </div>
+
+            <div>
+              <label for="dueDate">Due date</label>
+              <input type="date" id="dueDate" aria-describedby="dueDateError" />
+              <span class="error" id="dueDateError" role="alert"></span>
+            </div>
+          </div>
+
+          <button type="submit" id="submitBtn">Add task</button>
+          <button type="button" id="cancelBtn" class="ghost" hidden>Cancel edit</button>
+        </form>
+      </section>
+
+      <section class="card stack">
+        <h2>Your tasks</h2>
+
+        <div class="toolbar">
+          <input
+            type="search"
+            id="search"
+            placeholder="Search tasks..."
+            aria-label="Search tasks"
+          />
+          <select id="sort" aria-label="Sort tasks">
+            <option value="created">Newest first</option>
+            <option value="due">By due date</option>
+            <option value="priority">By priority</option>
+            <option value="title">A–Z</option>
+          </select>
+        </div>
+
+        <div class="filters" role="group" aria-label="Filter tasks">
+          <button type="button" class="ghost" data-filter="all">All</button>
+          <button type="button" class="ghost" data-filter="active">Active</button>
+          <button type="button" class="ghost" data-filter="done">Done</button>
+          <button type="button" class="ghost" data-filter="high">High</button>
+          <button type="button" class="ghost" data-filter="overdue">Overdue</button>
+        </div>
+
+        <ul id="taskList" aria-live="polite"></ul>
+        <p class="count" id="count"></p>
+      </section>
+
+      <section class="card stack">
+        <h2>API panel</h2>
+        <div class="api-tabs" role="group" aria-label="Choose a source">
+          <button type="button" class="ghost" data-source="users">Users</button>
+          <button type="button" class="ghost" data-source="posts">Posts</button>
+          <button type="button" class="ghost" data-source="broken">Break it</button>
+        </div>
+        <div id="apiPanel" aria-live="polite" aria-busy="false"></div>
+      </section>
+
+      <section class="card stack">
+        <h2>Analytics</h2>
+        <p class="small muted">
+          Loaded with <code>import()</code> on first click — check the Network tab, it isn't there
+          until you press the button.
+        </p>
+        <div class="foot">
+          <button type="button" id="statsBtn" class="ghost">Show analytics</button>
+          <button type="button" id="exportBtn" class="ghost">Export CSV</button>
+        </div>
+        <div id="statsPanel" hidden></div>
+      </section>
+
+      <section class="card stack">
+        <h2>Data</h2>
+        <div class="foot">
+          <button type="button" id="seedBtn" class="ghost">Load sample tasks</button>
+          <button type="button" id="clearBtn" class="danger">Delete everything</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

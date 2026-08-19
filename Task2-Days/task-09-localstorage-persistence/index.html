@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 9 — LocalStorage Persistence</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header class="row" style="justify-content: space-between">
+        <div>
+          <p class="eyebrow">Day 2 · Task 9</p>
+          <h1>LocalStorage Persistence</h1>
+        </div>
+        <button type="button" id="themeBtn" class="ghost">🌙 Dark</button>
+      </header>
+
+      <p class="lead">
+        Tasks, filter, search text, sort order and theme are stored as one JSON object. Change
+        anything, press <kbd>F5</kbd>, and the page comes back exactly as you left it.
+      </p>
+
+      <section class="card stack">
+        <h2>The app</h2>
+
+        <form id="taskForm" class="toolbar">
+          <input
+            type="text"
+            id="title"
+            placeholder="New task title..."
+            aria-label="Task title"
+            autocomplete="off"
+          />
+          <select id="priority" aria-label="Priority">
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="low">Low</option>
+          </select>
+          <button type="submit">Add</button>
+        </form>
+
+        <div class="toolbar">
+          <input
+            type="search"
+            id="search"
+            placeholder="Search tasks..."
+            aria-label="Search tasks"
+          />
+          <select id="sort" aria-label="Sort">
+            <option value="created">Newest first</option>
+            <option value="priority">By priority</option>
+            <option value="title">A–Z</option>
+          </select>
+        </div>
+
+        <div class="filters">
+          <button type="button" class="ghost" data-filter="all">All</button>
+          <button type="button" class="ghost" data-filter="active">Active</button>
+          <button type="button" class="ghost" data-filter="done">Done</button>
+          <button type="button" class="ghost" data-filter="high">High</button>
+        </div>
+
+        <ul id="taskList" aria-live="polite"></ul>
+        <p class="count" id="count"></p>
+        <p id="saveStatus" class="small muted">Nothing saved yet.</p>
+
+        <div class="row">
+          <button type="button" id="seedBtn" class="ghost">Load sample tasks</button>
+          <button type="button" id="corruptBtn" class="ghost">Corrupt the storage</button>
+          <button type="button" id="clearBtn" class="danger">Delete everything</button>
+        </div>
+      </section>
+
+      <section class="card stack">
+        <h2>What's actually in localStorage</h2>
+        <p class="small muted">
+          Key <code>day2.task09.state</code> · <span id="size">0 bytes</span> · updates on every
+          change
+        </p>
+        <pre class="raw" id="raw"></pre>
+      </section>
+
+      <section class="card stack">
+        <h2>Five things this handles that a naive version doesn't</h2>
+        <ul class="plain small">
+          <li>
+            <strong>One key, one object.</strong> Not five separate keys. A single read on load, a
+            single write on change, and the pieces can never fall out of sync.
+          </li>
+          <li>
+            <strong>try/catch on both read and write.</strong> localStorage genuinely throws — in
+            private mode on older Safari, when the quota is full, and when third-party storage is
+            blocked. Press <em>Corrupt the storage</em> then refresh: it recovers instead of a white
+            screen.
+          </li>
+          <li>
+            <strong>Spread over defaults on load.</strong>
+            <code>{ ...defaults, ...parsed }</code> means a key you add next week is never
+            <code>undefined</code> for someone with old data saved.
+          </li>
+          <li>
+            <strong>A version number.</strong> When the shape changes, old data is migrated rather
+            than crashing the app.
+          </li>
+          <li>
+            <strong>The <code>storage</code> event.</strong> Open this page in two tabs and edit one
+            — the other notices. Note it fires only in the <em>other</em> tabs, never the one that
+            made the change.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card stack">
+        <h2>Things worth knowing</h2>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>localStorage</th>
+              <th>sessionStorage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Survives a refresh</td>
+              <td>yes</td>
+              <td>yes</td>
+            </tr>
+            <tr>
+              <td>Survives closing the tab</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td>Shared between tabs</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td>Typical limit</td>
+              <td>~5MB per origin</td>
+              <td>~5MB per origin</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Both store <strong>strings only</strong> — hence <code>JSON.stringify</code> going in and
+          <code>JSON.parse</code> coming out. Both are also synchronous, so writing on every
+          keystroke of a large object will block the main thread. Never store tokens, passwords or
+          anything sensitive: any script on the page can read it.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>How to verify</h2>
+        <ol
+          class="small"
+          style="padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.3rem"
+        >
+          <li>Add a few tasks, tick one, type a search, pick a filter, switch to dark mode</li>
+          <li>Press <kbd>F5</kbd> — every one of those comes back</li>
+          <li>DevTools → <strong>Application</strong> → Local Storage → your origin</li>
+          <li>Find <code>day2.task09.state</code> and compare it to the panel above</li>
+          <li>
+            Press <em>Corrupt the storage</em>, refresh, and watch it recover with a console warning
+          </li>
+        </ol>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
