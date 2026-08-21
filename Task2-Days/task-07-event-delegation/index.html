@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 7 — Event Delegation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 7</p>
+        <h1>Event Delegation</h1>
+        <p class="lead">
+          Seven actions — toggle, edit, save, cancel, delete, move up, move down — all handled by a
+          single listener on the list container.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>The proof</h2>
+        <div class="counters">
+          <div class="counter"><b id="listenerCount">1</b><span>Listeners bound</span></div>
+          <div class="counter"><b id="buttonCount">0</b><span>Controls on screen</span></div>
+        </div>
+        <p class="small muted">
+          Add tasks and the control count climbs. The listener count never moves — new buttons work
+          immediately because nothing was ever bound to the old ones.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>Try it</h2>
+        <div class="row">
+          <button type="button" id="addBtn">Add a task</button>
+        </div>
+        <ul id="taskList" aria-live="polite"></ul>
+      </section>
+
+      <section class="card stack">
+        <h2>Action log</h2>
+        <div class="out" id="log"></div>
+        <div class="row">
+          <button type="button" id="clearLog" class="ghost">Clear log</button>
+        </div>
+      </section>
+
+      <section class="card stack">
+        <h2>How the routing works</h2>
+        <div class="out">
+          <div class="k">list.addEventListener("click", event =&gt; {</div>
+          <div class="dim">// the click may land on text or an icon inside the button</div>
+          <div class="k">const trigger = event.target.closest("[data-action]");</div>
+          <div class="k">if (!trigger || !list.contains(trigger)) return;</div>
+          <div></div>
+          <div class="k">const { action } = trigger.dataset;</div>
+          <div class="k">const id = trigger.closest("li").dataset.id;</div>
+          <div></div>
+          <div class="k">switch (action) { ... }</div>
+          <div class="k">render();</div>
+          <div class="k">});</div>
+        </div>
+
+        <ul class="plain small">
+          <li>
+            <strong><code>closest("[data-action]")</code>, not <code>event.target</code>.</strong>
+            If the button ever contains an icon or a span, the click target is that child. Reading
+            <code>event.target.dataset.action</code> directly returns <code>undefined</code> and the
+            handler silently does nothing.
+          </li>
+          <li>
+            <strong><code>data-action</code> says what, <code>data-id</code> says which.</strong>
+            The action lives on the button; the id lives on the row. One
+            <code>closest("li")</code> connects them.
+          </li>
+          <li>
+            <strong>Early return, not a big if-chain.</strong> Clicks that hit the padding or the
+            text exit on line two.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card stack">
+        <h2>Why it matters here specifically</h2>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Listener per button</th>
+              <th>One delegated listener</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100 rows × 4 buttons</td>
+              <td>400 listeners</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>After a re-render</td>
+              <td>all 400 must be re-bound</td>
+              <td>nothing to do</td>
+            </tr>
+            <tr>
+              <td>Forget to re-bind</td>
+              <td>buttons silently stop working</td>
+              <td>can't happen</td>
+            </tr>
+            <tr>
+              <td>Removing a row</td>
+              <td>listener leaks unless removed</td>
+              <td>nothing to clean up</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Task 6 rebuilds <code>innerHTML</code> on every change, which destroys every element in
+          the list. Per-button listeners would die with them. Delegation is what makes the
+          render-everything approach viable.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>Events that don't bubble</h2>
+        <p class="small muted">
+          Delegation relies on bubbling. <code>focus</code>, <code>blur</code>,
+          <code>mouseenter</code> and <code>mouseleave</code> don't bubble — use
+          <code>focusin</code>, <code>focusout</code>, <code>mouseover</code> and
+          <code>mouseout</code> instead, or pass <code>{ capture: true }</code>.
+          <code>change</code> and <code>input</code> do bubble, which is why the checkbox above
+          works through the same handler.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

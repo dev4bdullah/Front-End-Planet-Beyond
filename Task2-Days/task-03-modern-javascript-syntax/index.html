@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 3 — Modern JavaScript Syntax</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 3</p>
+        <h1>Modern JavaScript Syntax</h1>
+        <p class="lead">
+          Every feature runs live and prints its result. Green lines are the modern behaviour, red
+          lines show what the old approach does differently.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Run a section</h2>
+        <div class="row demos">
+          <button type="button" data-demo="scoping">let / const</button>
+          <button type="button" data-demo="arrows">Arrow functions</button>
+          <button type="button" data-demo="templates">Template literals</button>
+          <button type="button" data-demo="destructuring">Destructuring</button>
+          <button type="button" data-demo="spread">Rest &amp; spread</button>
+          <button type="button" data-demo="safeAccess">?. and ??</button>
+        </div>
+        <div class="row">
+          <button type="button" id="allBtn" class="ghost">Run everything</button>
+          <button type="button" id="clearBtn" class="ghost">Clear</button>
+        </div>
+        <div class="out" id="out"></div>
+      </section>
+
+      <section class="card stack">
+        <h2>The parts worth remembering</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>The bit people get wrong</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>const</code></td>
+              <td>locks the binding, not the value — you can still mutate the object</td>
+            </tr>
+            <tr>
+              <td><code>let</code> in a loop</td>
+              <td>each iteration gets its own binding; <code>var</code> shares one</td>
+            </tr>
+            <tr>
+              <td>arrow functions</td>
+              <td>
+                no own <code>this</code> — that's the point, not a limitation. Don't use them for
+                object methods that need <code>this</code>
+              </td>
+            </tr>
+            <tr>
+              <td>returning an object</td>
+              <td>
+                <code>n => ({ a: n })</code> — without the parens the braces read as a function body
+              </td>
+            </tr>
+            <tr>
+              <td>nested destructuring</td>
+              <td>
+                <code>const { meta: { city } = {} }</code> — the <code>= {}</code> stops a missing
+                parent throwing
+              </td>
+            </tr>
+            <tr>
+              <td><code>??</code> vs <code>||</code></td>
+              <td>
+                <code>||</code> rejects <code>0</code> and <code>""</code>; <code>??</code> only
+                rejects <code>null</code> and <code>undefined</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          That last row is the one that causes real bugs. <code>quantity || 1</code> silently turns
+          a deliberate zero into one. <code>quantity ?? 1</code> doesn't.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

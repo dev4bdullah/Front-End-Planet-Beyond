@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 6 — Dynamic DOM Rendering</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 6</p>
+        <h1>Dynamic DOM Rendering</h1>
+        <p class="lead">
+          There is no task markup in this HTML file. Every card below is generated from a JavaScript
+          array — change the data, call <code>render()</code>, and the page catches up.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Generated output</h2>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="row">
+          <button type="button" id="addBtn">Add random task</button>
+          <button type="button" id="sortBtn" class="ghost">Sort by priority</button>
+          <button type="button" id="completeBtn" class="ghost">Complete all</button>
+          <button type="button" id="resetBtn" class="ghost">Clear all</button>
+        </div>
+
+        <div class="filters">
+          <button type="button" class="ghost" data-filter="all">All</button>
+          <button type="button" class="ghost" data-filter="active">Active</button>
+          <button type="button" class="ghost" data-filter="done">Done</button>
+        </div>
+
+        <ul id="taskList" aria-live="polite"></ul>
+        <p class="count" id="count"></p>
+        <p class="small muted">
+          render() has run <b id="renderCount">0</b> times — every button above changes data only.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>The pattern</h2>
+        <div class="out">
+          <div class="dim">// 1. data is the single source of truth</div>
+          <div class="k">let tasks = [ ... ];</div>
+          <div></div>
+          <div class="dim">// 2. one function turns one item into markup</div>
+          <div class="k">function taskCard(task) { return `&lt;li&gt;...&lt;/li&gt;`; }</div>
+          <div></div>
+          <div class="dim">// 3. one function writes the whole list</div>
+          <div class="k">function render() { list.innerHTML = tasks.map(taskCard).join(""); }</div>
+          <div></div>
+          <div class="dim">// 4. every action changes data, then re-renders</div>
+          <div class="k">tasks.push(newTask); render();</div>
+        </div>
+        <p class="note">
+          The win is that you never patch the DOM by hand. There's no code anywhere that says "find
+          the third card and update its checkbox" — you change the array and redraw.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>Three things this does deliberately</h2>
+        <ul class="plain small">
+          <li>
+            <strong><code>escapeHtml</code> on every value.</strong> Building markup from user input
+            with <code>innerHTML</code> is an XSS hole without it. Add a task titled
+            <code>&lt;img onerror=alert(1)&gt;</code> — it renders as text, not as a tag.
+          </li>
+          <li>
+            <strong>The empty state lives inside render().</strong> It's just another branch of the
+            same function, not a special case handled somewhere else that can drift out of sync.
+          </li>
+          <li>
+            <strong>Actions never touch the DOM.</strong> Every handler mutates
+            <code>tasks</code> and calls <code>render()</code>. One code path draws the page, so
+            there's only one place a rendering bug can live.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card stack">
+        <h2>innerHTML vs createElement</h2>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th><code>innerHTML</code> + template strings</th>
+              <th><code>createElement</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Readability</td>
+              <td>looks like the output</td>
+              <td>verbose for nested markup</td>
+            </tr>
+            <tr>
+              <td>Safety</td>
+              <td>needs escaping — always</td>
+              <td><code>textContent</code> escapes for you</td>
+            </tr>
+            <tr>
+              <td>Event listeners</td>
+              <td>lost on redraw, so use delegation</td>
+              <td>can attach per element</td>
+            </tr>
+            <tr>
+              <td>Focus &amp; scroll</td>
+              <td>reset on redraw</td>
+              <td>preserved if you patch in place</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          This page uses <code>innerHTML</code> plus escaping plus delegation, which is the
+          combination that stays readable at this size. React exists because that combination stops
+          scaling once the app gets large.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

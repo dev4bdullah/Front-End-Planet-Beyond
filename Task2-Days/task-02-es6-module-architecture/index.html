@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 2 — ES6 Module Architecture</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 2</p>
+        <h1>ES6 Module Architecture</h1>
+        <p class="lead">
+          The same small app split across six files, each with exactly one job. Everything below is
+          working code — the point is where each piece lives, not what it does.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Who does what</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Only thing it knows about</th>
+              <th>Exports</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>main.js</code></td>
+              <td>wiring and state</td>
+              <td>nothing — it's the entry point</td>
+            </tr>
+            <tr>
+              <td><code>storage.js</code></td>
+              <td>localStorage</td>
+              <td><code>load</code>, <code>save</code>, <code>clear</code></td>
+            </tr>
+            <tr>
+              <td><code>api.js</code></td>
+              <td>the network</td>
+              <td><code>fetchTodos</code></td>
+            </tr>
+            <tr>
+              <td><code>render.js</code></td>
+              <td>the DOM</td>
+              <td><code>renderTasks</code>, <code>renderTodos</code>, <code>showError</code></td>
+            </tr>
+            <tr>
+              <td><code>validation.js</code></td>
+              <td>nothing external — pure functions</td>
+              <td><code>validateTitle</code>, <code>validatePriority</code></td>
+            </tr>
+            <tr>
+              <td><code>utils.js</code></td>
+              <td>nothing external — pure functions</td>
+              <td><code>makeId</code>, <code>escapeHtml</code>, <code>formatDate</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card stack">
+        <h2>It actually runs</h2>
+
+        <form id="taskForm" novalidate class="stack">
+          <div>
+            <label for="title">Task title</label>
+            <input type="text" id="title" autocomplete="off" aria-describedby="titleError" />
+            <span class="error" id="titleError" role="alert"></span>
+          </div>
+
+          <div>
+            <label for="priority">Priority</label>
+            <select id="priority" aria-describedby="priorityError">
+              <option value="">Choose one</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+            <span class="error" id="priorityError" role="alert"></span>
+          </div>
+
+          <div class="row">
+            <button type="submit">Add task</button>
+            <button type="button" id="clearBtn" class="ghost">Clear saved data</button>
+          </div>
+        </form>
+
+        <ul class="plain" id="taskList"></ul>
+      </section>
+
+      <section class="card stack">
+        <h2>api.js in action</h2>
+        <button type="button" id="loadBtn" class="ghost">Load 5 todos</button>
+        <div class="out" id="todoBox">
+          <div class="dim">Nothing loaded yet.</div>
+        </div>
+      </section>
+
+      <section class="card stack">
+        <h2>Three rules this structure follows</h2>
+        <ul class="plain small">
+          <li>
+            <strong>One reason to change.</strong> If localStorage becomes an API,
+            <code>storage.js</code> is the only file you edit.
+          </li>
+          <li>
+            <strong>Pure files at the bottom.</strong> <code>utils.js</code> and
+            <code>validation.js</code> import nothing, so they're trivial to test and can never
+            cause a circular import.
+          </li>
+          <li>
+            <strong>Only main.js holds state.</strong> Every other module takes its data as an
+            argument, which is what makes them reusable.
+          </li>
+        </ul>
+        <p class="note">
+          The <code>.js</code> extension in <code>import { load } from "./storage.js"</code> is
+          required in the browser. Node and bundlers let you drop it; the browser will 404.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

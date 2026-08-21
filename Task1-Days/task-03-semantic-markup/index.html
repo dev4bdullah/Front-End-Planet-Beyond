@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Task 3 — semantic HTML5 landmarks with ARIA roles and labels"
+    />
+    <title>Task 3 — Semantic Markup</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Skip link: first thing a keyboard user reaches, jumps past the nav -->
+    <a class="skip" href="#main">Skip to main content</a>
+
+    <!-- banner landmark -->
+    <header class="site-header">
+      <p class="logo">Semantic<span>HTML</span></p>
+
+      <!-- navigation landmark; aria-label distinguishes it from the footer nav -->
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#main" aria-current="page">Overview</a></li>
+          <li><a href="#landmarks">Landmarks</a></li>
+          <li><a href="#headings">Headings</a></li>
+          <li><a href="#aria">ARIA</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="shell">
+      <!-- main landmark: exactly one per page, no wrapper divs around it -->
+      <main id="main" tabindex="-1">
+        <h1>Semantic markup, not div soup</h1>
+        <p class="lead">
+          Every block on this page is a real HTML5 element. A screen reader can list the landmarks
+          and jump straight to any of them — something a page built from
+          <code>&lt;div&gt;</code> can't offer.
+        </p>
+
+        <section id="landmarks" aria-labelledby="landmarks-title">
+          <h2 id="landmarks-title">The landmarks in use</h2>
+
+          <table>
+            <caption>
+              Generic element on the left, the semantic replacement on the right
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Instead of</th>
+                <th scope="col">Use</th>
+                <th scope="col">Implicit role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>div class="header"</code></td>
+                <td><code>header</code></td>
+                <td>banner</td>
+              </tr>
+              <tr>
+                <td><code>div class="nav"</code></td>
+                <td><code>nav</code></td>
+                <td>navigation</td>
+              </tr>
+              <tr>
+                <td><code>div id="content"</code></td>
+                <td><code>main</code></td>
+                <td>main</td>
+              </tr>
+              <tr>
+                <td><code>div class="sidebar"</code></td>
+                <td><code>aside</code></td>
+                <td>complementary</td>
+              </tr>
+              <tr>
+                <td><code>div class="post"</code></td>
+                <td><code>article</code></td>
+                <td>article</td>
+              </tr>
+              <tr>
+                <td><code>div class="footer"</code></td>
+                <td><code>footer</code></td>
+                <td>contentinfo</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="note">
+            Because these roles are implicit, writing <code>&lt;header role="banner"&gt;</code> is
+            redundant. Only add a role when no element carries it already.
+          </p>
+        </section>
+
+        <section id="headings" aria-labelledby="headings-title">
+          <h2 id="headings-title">Heading order</h2>
+          <p>
+            Headings form the outline a screen reader uses to skim. One
+            <code>h1</code> per page, then descend one level at a time — never skip from
+            <code>h2</code> to <code>h4</code> just because the smaller size looks nicer.
+          </p>
+
+          <article class="card">
+            <h3>An article inside a section</h3>
+            <p>
+              <code>article</code> is for content that would still make sense on its own — a blog
+              post, a product card, a comment.
+            </p>
+
+            <h4>A subheading inside the article</h4>
+            <p>Level 4 is correct here because it sits under a level 3.</p>
+
+            <figure>
+              <img
+                src="assets/outline.svg"
+                alt="Heading outline showing h1 with two h2 children and one h3"
+              />
+              <figcaption>
+                <code>figure</code> with <code>figcaption</code> ties an image to its caption in the
+                accessibility tree.
+              </figcaption>
+            </figure>
+          </article>
+        </section>
+
+        <section id="aria" aria-labelledby="aria-title">
+          <h2 id="aria-title">ARIA where HTML falls short</h2>
+
+          <ul class="list">
+            <li>
+              <strong>aria-label</strong> — names an element that has no visible text. Both
+              <code>nav</code> elements on this page carry one, so they don't read as two identical
+              "navigation" landmarks.
+            </li>
+            <li>
+              <strong>aria-labelledby</strong> — points at existing visible text instead of
+              duplicating it. Each <code>section</code> above is labelled by its own heading.
+            </li>
+            <li>
+              <strong>aria-current="page"</strong> — marks which nav link is the current page.
+            </li>
+            <li>
+              <strong>aria-hidden="true"</strong> — hides decoration from screen readers. Used on
+              the arrow below.
+            </li>
+            <li>
+              <strong>alt=""</strong> — an empty alt on a purely decorative image is correct; a
+              missing alt is not.
+            </li>
+          </ul>
+
+          <p class="note">
+            Rule of thumb: the best ARIA is no ARIA. Reach for a real element first, and only add an
+            attribute when HTML genuinely has no equivalent.
+          </p>
+
+          <details>
+            <summary>How to check this page yourself <span aria-hidden="true">↓</span></summary>
+            <ol>
+              <li>
+                Press <kbd>Tab</kbd> from the address bar — the skip link appears first, and every
+                focused element has a visible outline.
+              </li>
+              <li>Open DevTools → Elements → Accessibility pane to read the computed tree.</li>
+              <li>
+                Run Lighthouse → Accessibility, or install the axe DevTools extension and scan.
+              </li>
+              <li>Disable CSS entirely — the page should still read in a sensible order.</li>
+            </ol>
+          </details>
+        </section>
+      </main>
+
+      <!-- complementary landmark: related, but not essential to the main content -->
+      <aside aria-labelledby="aside-title">
+        <h2 id="aside-title">Quick reference</h2>
+        <dl>
+          <dt>header</dt>
+          <dd>Intro content or navigation for its nearest section.</dd>
+          <dt>nav</dt>
+          <dd>A block of major links. Not every group of links needs one.</dd>
+          <dt>main</dt>
+          <dd>The unique content of this page. One per document.</dd>
+          <dt>section</dt>
+          <dd>A thematic grouping — should have a heading.</dd>
+          <dt>article</dt>
+          <dd>Self-contained content that could be syndicated.</dd>
+          <dt>aside</dt>
+          <dd>Tangentially related content, like this box.</dd>
+          <dt>footer</dt>
+          <dd>Closing info for its nearest section.</dd>
+        </dl>
+      </aside>
+    </div>
+
+    <!-- contentinfo landmark -->
+    <footer class="site-footer">
+      <nav aria-label="Footer">
+        <ul>
+          <li><a href="#main">Back to top</a></li>
+          <li><a href="#landmarks">Landmarks</a></li>
+          <li><a href="#aria">ARIA</a></li>
+        </ul>
+      </nav>
+      <p class="muted">Day 1 · Task 3 — Semantic Markup</p>
+    </footer>
+  </body>
+</html>

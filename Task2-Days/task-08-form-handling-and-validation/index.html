@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 8 — Form Handling &amp; Validation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 8</p>
+        <h1>Form Handling &amp; Validation</h1>
+        <p class="lead">
+          Five fields, validated on blur, cleared as you fix them, and blocked on submit — with
+          every message wired to its input for screen readers.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>The form</h2>
+
+        <div class="row">
+          <button type="button" id="fillBtn" class="ghost">Fill with valid data</button>
+          <button type="button" id="breakBtn" class="ghost">Fill with invalid data</button>
+        </div>
+
+        <div id="summary" role="alert" hidden></div>
+
+        <form id="taskForm" novalidate class="stack">
+          <div class="field">
+            <label for="title">Task title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              autocomplete="off"
+              aria-describedby="titleError titleHint"
+            />
+            <span class="error" id="titleError" role="alert"></span>
+            <p class="hint" id="titleHint">Between 3 and 80 characters.</p>
+          </div>
+
+          <div class="two">
+            <div class="field">
+              <label for="priority">Priority *</label>
+              <select id="priority" name="priority" aria-describedby="priorityError">
+                <option value="">Choose one</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+              <span class="error" id="priorityError" role="alert"></span>
+            </div>
+
+            <div class="field">
+              <label for="dueDate">Due date *</label>
+              <input type="date" id="dueDate" name="dueDate" aria-describedby="dueDateError" />
+              <span class="error" id="dueDateError" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="two">
+            <div class="field">
+              <label for="hours">Estimated hours *</label>
+              <input
+                type="number"
+                id="hours"
+                name="hours"
+                min="0.5"
+                step="0.5"
+                aria-describedby="hoursError"
+              />
+              <span class="error" id="hoursError" role="alert"></span>
+            </div>
+
+            <div class="field">
+              <label for="email">Notify (optional)</label>
+              <input type="email" id="email" name="email" aria-describedby="emailError" />
+              <span class="error" id="emailError" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="row">
+            <button type="submit">Add task</button>
+            <span id="status" class="small muted"></span>
+          </div>
+        </form>
+      </section>
+
+      <section class="card stack">
+        <h2>Submitted tasks</h2>
+        <ul class="plain" id="taskList"></ul>
+      </section>
+
+      <section class="card stack">
+        <h2>Six decisions in this code</h2>
+        <ul class="plain small">
+          <li>
+            <strong><code>novalidate</code> on the form.</strong> Turns off the browser's own
+            bubbles so ours are the only ones. The <code>type</code> and <code>min</code>
+            attributes stay — they still give phones the right keyboard.
+          </li>
+          <li>
+            <strong><code>preventDefault()</code> first.</strong> Without it the page reloads and
+            the URL grows a <code>?</code>, which is the classic sign the handler never ran.
+          </li>
+          <li>
+            <strong>Validate on blur, not on the first keystroke.</strong> Flagging "ab" as too
+            short while someone is still typing "abdullah" reads as hostile. Once a field has been
+            left, it validates live so the error clears the moment it's fixed.
+          </li>
+          <li>
+            <strong>Validators return a string, not a boolean.</strong> The caller gets the message
+            for free, and the rule stays in one place.
+          </li>
+          <li>
+            <strong>Focus moves to the first invalid field.</strong> Otherwise a keyboard user has
+            to tab through the whole form hunting for the problem.
+          </li>
+          <li>
+            <strong><code>aria-describedby</code> + <code>role="alert"</code>.</strong> The message
+            is announced as part of the field, and the summary is read the moment it appears.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card stack">
+        <h2>Rules being enforced</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Checks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Title</td>
+              <td>required · 3–80 characters · trimmed before checking</td>
+            </tr>
+            <tr>
+              <td>Priority</td>
+              <td>required · must be one of the three options</td>
+            </tr>
+            <tr>
+              <td>Due date</td>
+              <td>required · real date · not in the past · under two years out</td>
+            </tr>
+            <tr>
+              <td>Hours</td>
+              <td>required · numeric · greater than 0 · at most 100</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>optional · but if present must have @, a domain and a dot</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Client-side validation is a courtesy to the user, never a security control. Anyone can
+          open DevTools and submit whatever they like — the server has to check all of this again.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

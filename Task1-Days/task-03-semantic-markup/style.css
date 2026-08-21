@@ -1,0 +1,349 @@
+/* Task 3 — styling keyed off semantic elements, so the CSS documents the structure too. */
+
+:root {
+  --bg: #f5f6f9;
+  --card: #ffffff;
+  --fg: #161a23;
+  --muted: #6b7280;
+  --line: #dde0e7;
+  --brand: #4f46e5;
+  --accent: #059669;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Visible only once it receives keyboard focus */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--brand);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 8px 0;
+  z-index: 20;
+}
+
+.skip:focus {
+  left: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1.25rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.logo span {
+  color: var(--brand);
+}
+
+.site-header nav ul {
+  display: flex;
+  gap: 0.3rem;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.site-header a {
+  display: block;
+  padding: 0.35rem 0.7rem;
+  border-radius: 7px;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-header a:hover {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.site-header a[aria-current="page"] {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* ---------- body layout ---------- */
+
+.shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.75rem 1rem 3rem;
+  align-items: start;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+h1 {
+  font-size: 1.65rem;
+  letter-spacing: -0.015em;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line);
+}
+
+h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+h4 {
+  font-size: 0.87rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+p {
+  font-size: 0.93rem;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+section p + p,
+section > p {
+  margin-bottom: 0.5rem;
+}
+
+.note {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 9px 9px 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.86rem;
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+code,
+kbd {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+}
+
+/* ---------- table ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.85rem;
+}
+
+caption {
+  caption-side: bottom;
+  padding-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: left;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+thead th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- article, figure, lists ---------- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 0.9rem;
+}
+
+figure {
+  margin-top: 0.85rem;
+}
+
+figure img {
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  display: block;
+}
+
+figcaption {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list li {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brand);
+  border-radius: 0 8px 8px 0;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.87rem;
+}
+
+details {
+  margin-top: 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+details ol {
+  margin: 0.6rem 0 0 1.1rem;
+  font-size: 0.86rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* ---------- aside ---------- */
+
+aside {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  position: sticky;
+  top: 1rem;
+}
+
+aside dt {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--brand);
+  margin-top: 0.6rem;
+}
+
+aside dd {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.site-footer ul {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  list-style: none;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.site-footer a {
+  font-size: 0.84rem;
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 800px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  aside {
+    position: static;
+  }
+}

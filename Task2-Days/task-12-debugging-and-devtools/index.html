@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 12 — Debugging &amp; DevTools</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 12</p>
+        <h1>Debugging &amp; DevTools</h1>
+        <p class="lead">
+          A sandbox for Console, Sources and Network. Several buttons break on purpose — press
+          <kbd>F12</kbd> first, or half of this is invisible.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>1 · Console</h2>
+        <div class="grid-btns">
+          <button type="button" data-run="levels">Log levels</button>
+          <button type="button" data-run="table">console.table</button>
+          <button type="button" data-run="group">Nested groups</button>
+          <button type="button" data-run="timing">time &amp; count</button>
+          <button type="button" data-run="assert">assert &amp; trace</button>
+        </div>
+        <p class="small muted">
+          After clicking, use the level dropdown in Console to filter to errors only, then warnings
+          only. Tick <strong>Verbose</strong> to reveal <code>console.debug</code>.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>2 · Sources and breakpoints</h2>
+        <div class="grid-btns">
+          <button type="button" data-run="breakpoint" class="warn-btn">Trigger debugger</button>
+          <button type="button" data-run="stepInto" class="warn-btn">Step into a function</button>
+          <button type="button" data-run="conditional" class="warn-btn">
+            Conditional breakpoint
+          </button>
+        </div>
+        <ul class="plain small">
+          <li>
+            <strong>Trigger debugger</strong> — execution freezes on the
+            <code>debugger</code> statement. Hover <code>total</code> and <code>cart</code> in the
+            Scope panel, press <kbd>F10</kbd> to step over each loop pass and watch
+            <code>total</code> climb, then <kbd>F8</kbd> to resume.
+          </li>
+          <li>
+            <strong>Step into</strong> — find <code>team.map(build)</code> in Sources, click the
+            line number to set a breakpoint, click the button again, then <kbd>F11</kbd> to step
+            inside <code>build()</code>.
+          </li>
+          <li>
+            <strong>Conditional</strong> — right-click a line number → Add conditional breakpoint →
+            <code>person.tasks &gt; 10</code>. It only pauses for Ayesha and Abdullah.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card stack">
+        <h2>3 · Network</h2>
+        <div class="grid-btns">
+          <button type="button" data-run="success">200 OK</button>
+          <button type="button" data-run="notFound" class="danger">404</button>
+          <button type="button" data-run="dnsFail" class="danger">Unreachable host</button>
+          <button type="button" data-run="slow" class="ghost">Slow request</button>
+        </div>
+        <ul id="userList"></ul>
+        <p class="note">
+          Compare the three failures. A 404 returns a status and a body. An unreachable host shows
+          <code>(failed)</code> with <em>no</em> status at all. A throttled request shows the time
+          in the Waterfall. They are three different problems.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>4 · Errors</h2>
+        <div class="grid-btns">
+          <button type="button" data-run="typeError" class="danger">TypeError</button>
+          <button type="button" data-run="jsonError">Caught JSON error</button>
+          <button type="button" data-run="uncaught" class="danger">Uncaught error</button>
+        </div>
+        <p class="small muted">
+          In Console, click the file link on the right of any error to jump straight to the line
+          that threw it.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>Mirrored output</h2>
+        <div class="out" id="out"></div>
+        <div class="row">
+          <button type="button" id="clearBtn" class="ghost">Clear both</button>
+        </div>
+        <p class="small muted">
+          This panel is a convenience copy. The real output — with objects you can expand and stack
+          traces you can click — is in the Console.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>Shortcuts worth memorising</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>F8</kbd></td>
+              <td>resume execution</td>
+            </tr>
+            <tr>
+              <td><kbd>F10</kbd></td>
+              <td>step over — run the line, don't go inside</td>
+            </tr>
+            <tr>
+              <td><kbd>F11</kbd></td>
+              <td>step into — go inside the function being called</td>
+            </tr>
+            <tr>
+              <td><kbd>Shift</kbd>+<kbd>F11</kbd></td>
+              <td>step out — finish this function and return</td>
+            </tr>
+            <tr>
+              <td><kbd>Ctrl</kbd>+<kbd>P</kbd></td>
+              <td>open a file by name</td>
+            </tr>
+            <tr>
+              <td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td>
+              <td>search across every loaded file</td>
+            </tr>
+            <tr>
+              <td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></td>
+              <td>device toolbar</td>
+            </tr>
+            <tr>
+              <td><kbd>Esc</kbd></td>
+              <td>open the drawer Console from any panel</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card stack">
+        <h2>When to reach for which</h2>
+        <ul class="plain small">
+          <li>
+            <strong>A value is wrong</strong> → breakpoint just before it's used, then read the
+            Scope panel. Faster than adding <code>console.log</code> and reloading.
+          </li>
+          <li>
+            <strong>Data isn't appearing</strong> → Network first. Check the request fired, the
+            status, and what the Response tab actually contains.
+          </li>
+          <li>
+            <strong>It works sometimes</strong> → conditional breakpoint on the case that fails.
+          </li>
+          <li>
+            <strong>A click does nothing</strong> → Elements → Event Listeners, to confirm the
+            handler is bound where you think it is.
+          </li>
+          <li>
+            <strong>Something is slow</strong> → Performance tab, record, and look at the long
+            tasks.
+          </li>
+        </ul>
+        <p class="note">
+          <code>console.log</code> is fine, and every developer uses it. But it means edit, reload,
+          repeat — a breakpoint lets you inspect every variable in scope at once without changing a
+          line of code.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 4 — Data Transformation Practice</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 4</p>
+        <h1>Data Transformation Practice</h1>
+        <p class="lead">
+          Ten tasks, seven array methods. Every result below is computed from the table at the
+          bottom, so you can check the output by hand.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Run a method</h2>
+        <div class="row demos">
+          <button type="button" data-demo="map">map</button>
+          <button type="button" data-demo="filter">filter</button>
+          <button type="button" data-demo="find">find</button>
+          <button type="button" data-demo="someEvery">some / every</button>
+          <button type="button" data-demo="reduce">reduce</button>
+          <button type="button" data-demo="sort">sort</button>
+          <button type="button" data-demo="chained">chained</button>
+        </div>
+        <div class="row">
+          <button type="button" id="allBtn" class="ghost">Run everything</button>
+          <button type="button" id="clearBtn" class="ghost">Clear</button>
+        </div>
+        <div class="out" id="out"></div>
+      </section>
+
+      <section class="card stack">
+        <h2>Picking the right one</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>You want</th>
+              <th>Use</th>
+              <th>Returns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>same count, different shape</td>
+              <td><code>map</code></td>
+              <td>new array, same length</td>
+            </tr>
+            <tr>
+              <td>fewer items, same shape</td>
+              <td><code>filter</code></td>
+              <td>new array, shorter</td>
+            </tr>
+            <tr>
+              <td>one specific item</td>
+              <td><code>find</code></td>
+              <td>the item, or <code>undefined</code></td>
+            </tr>
+            <tr>
+              <td>"is there at least one?"</td>
+              <td><code>some</code></td>
+              <td>boolean</td>
+            </tr>
+            <tr>
+              <td>"do they all pass?"</td>
+              <td><code>every</code></td>
+              <td>boolean</td>
+            </tr>
+            <tr>
+              <td>a total, a group, an object</td>
+              <td><code>reduce</code></td>
+              <td>anything you want</td>
+            </tr>
+            <tr>
+              <td>a different order</td>
+              <td><code>sort</code></td>
+              <td>the <em>same</em> array, reordered</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">
+          <code>sort</code> is the odd one out — it mutates in place and returns the same reference.
+          Always <code>[...arr].sort(...)</code> unless you genuinely want the original changed.
+        </p>
+      </section>
+
+      <section class="card stack">
+        <h2>The dataset</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>title</th>
+              <th>assignee</th>
+              <th>priority</th>
+              <th>status</th>
+              <th>hrs</th>
+              <th>due</th>
+            </tr>
+          </thead>
+          <tbody id="dataBody"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

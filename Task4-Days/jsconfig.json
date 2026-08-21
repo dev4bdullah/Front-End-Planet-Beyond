@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@shared/*": ["src/shared/*"],
+      "@tasks/*": ["src/tasks/*"],
+      "@layout/*": ["src/tasks/task-03-shared-layouts/layout/*"],
+      "@services/*": ["src/tasks/task-09-api-service-layer/services/*"],
+      "@hooks/*": ["src/tasks/task-11-custom-hooks/hooks/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

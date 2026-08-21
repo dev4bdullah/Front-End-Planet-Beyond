@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 11 — Dynamic Import</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 11</p>
+        <h1>Dynamic Import</h1>
+        <p class="lead">
+          Two extra modules exist in this folder and neither is downloaded when the page opens. They
+          arrive only when you click the button that needs them.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Prove it in 30 seconds</h2>
+        <ol
+          class="small"
+          style="padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.3rem"
+        >
+          <li>
+            Press <kbd>F12</kbd> → <strong>Network</strong> tab, filter to <strong>JS</strong>
+          </li>
+          <li>Refresh. You'll see <code>main.js</code> — and no <code>analytics.js</code></li>
+          <li>
+            Click <strong>Show analytics</strong>. Now <code>analytics.js</code> appears in the list
+          </li>
+          <li>
+            Click <strong>Export CSV</strong>. Nothing new downloads — the log says it was cached
+          </li>
+          <li>Click <strong>Show chart</strong>. Only <code>charts.js</code> is fetched</li>
+        </ol>
+      </section>
+
+      <section class="card stack">
+        <h2>The data (loaded normally)</h2>
+        <ul id="taskList"></ul>
+      </section>
+
+      <section class="card stack">
+        <h2>Actions that need a lazy module</h2>
+        <div class="row">
+          <button type="button" id="statsBtn">Show analytics</button>
+          <button type="button" id="chartBtn" class="ghost">Show chart</button>
+          <button type="button" id="exportBtn" class="ghost">Export CSV</button>
+        </div>
+        <div id="output">No module loaded yet. Open the Network tab, then click a button.</div>
+      </section>
+
+      <section class="card stack">
+        <h2>Load log</h2>
+        <div class="out" id="log"></div>
+      </section>
+
+      <section class="card stack">
+        <h2>Static vs dynamic import</h2>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th><code>import x from "./x.js"</code></th>
+              <th><code>await import("./x.js")</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>When it runs</td>
+              <td>before any of your code</td>
+              <td>the moment you call it</td>
+            </tr>
+            <tr>
+              <td>Where it can appear</td>
+              <td>top level only</td>
+              <td>anywhere — inside an if, a handler, a loop</td>
+            </tr>
+            <tr>
+              <td>Path</td>
+              <td>must be a literal string</td>
+              <td>can be a variable</td>
+            </tr>
+            <tr>
+              <td>Returns</td>
+              <td>the bindings</td>
+              <td>a Promise of the module object</td>
+            </tr>
+            <tr>
+              <td>Effect on first load</td>
+              <td>adds to it</td>
+              <td>none</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card stack">
+        <h2>Four details in this code</h2>
+        <ul class="plain small">
+          <li>
+            <strong>The module is cached after the first import.</strong> Click
+            <em>Show analytics</em> then <em>Export CSV</em> — the second one reuses it. The browser
+            evaluates a module exactly once no matter how many times it's imported.
+          </li>
+          <li>
+            <strong>The result is a namespace object, so destructure it.</strong>
+            <code>const { getStats } = await import(...)</code>. A default export arrives as
+            <code>.default</code>.
+          </li>
+          <li>
+            <strong>It can fail.</strong> A network drop mid-session means the import rejects — so
+            it's wrapped in try/catch with the button restored in <code>finally</code>.
+          </li>
+          <li>
+            <strong>Load two in parallel with <code>Promise.all</code>.</strong> The chart button
+            needs both modules; awaiting them one after the other would double the wait.
+          </li>
+        </ul>
+        <p class="note">
+          Worth loading lazily: export and PDF tools, chart libraries, rich text editors, admin
+          panels, anything behind a rarely-clicked button. Not worth it: small modules used on first
+          paint — an extra round trip costs more than the bytes you saved.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

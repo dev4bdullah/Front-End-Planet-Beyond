@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@shared/*": ["src/shared/*"],
+      "@tasks/*": ["src/tasks/*"],
+      "@ui/*": ["src/tasks/task-03-reusable-ui-system/ui/*"],
+      "@layout/*": ["src/tasks/task-02-dashboard-shell/layout/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

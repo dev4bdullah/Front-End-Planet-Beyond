@@ -1,0 +1,382 @@
+/* Task 5 — custom properties + clamp() / min() / max() / calc().
+   There is deliberately not a single media query in this file. */
+
+:root {
+  /* ---------- colour ---------- */
+  --bg: #f5f6f9;
+  --card: #ffffff;
+  --fg: #161a23;
+  --muted: #6b7280;
+  --line: #dde0e7;
+  --brand: #4f46e5;
+  --brand-soft: #e8e7fb;
+  --accent: #059669;
+
+  /* ---------- fluid spacing scale ----------
+     Each step is a clamp(), so the whole rhythm scales with the viewport.
+     The larger steps are derived with calc() to stay proportional. */
+  --space-3xs: clamp(0.15rem, 0.14rem + 0.05vw, 0.2rem);
+  --space-2xs: clamp(0.3rem, 0.28rem + 0.1vw, 0.4rem);
+  --space-xs: clamp(0.5rem, 0.45rem + 0.25vw, 0.7rem);
+  --space-sm: clamp(0.75rem, 0.68rem + 0.35vw, 1rem);
+  --space-md: calc(var(--space-sm) * 1.5);
+  --space-lg: calc(var(--space-sm) * 2.25);
+  --space-xl: calc(var(--space-sm) * 3.5);
+
+  /* ---------- fluid type scale ----------
+     Every middle value keeps a rem term so browser zoom still works. */
+  --text-sm: clamp(0.8rem, 0.77rem + 0.15vw, 0.88rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.08rem);
+  --text-md: clamp(1.1rem, 1rem + 0.6vw, 1.4rem);
+  --text-lg: clamp(1.4rem, 1.1rem + 1.6vw, 2.1rem);
+  --text-xl: clamp(2rem, 1.2rem + 4vw, 3.5rem);
+
+  /* ---------- layout ---------- */
+  --measure: 68ch;
+  --header-h: 3.5rem;
+  --radius: clamp(8px, 0.5rem + 0.3vw, 14px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  min-height: var(--header-h);
+  /* max() guarantees a floor on phones, lets big screens breathe */
+  padding: var(--space-xs) max(1rem, 4vw);
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: var(--text-md);
+}
+.logo span {
+  color: var(--brand);
+}
+
+.site-header ul {
+  display: flex;
+  gap: var(--space-3xs);
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.site-header a {
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: 7px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+}
+.site-header a:hover {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* ---------- shell ----------
+   min() replaces "max-width plus a mobile override" with one line. */
+
+.shell {
+  width: min(100% - 2rem, 1000px);
+  margin-inline: auto;
+  padding-block: var(--space-lg) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+h1 {
+  font-size: var(--text-xl);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--text-md);
+  margin-bottom: var(--space-xs);
+  padding-bottom: var(--space-2xs);
+  border-bottom: 1px solid var(--line);
+}
+
+h3 {
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2xs);
+}
+
+.lead {
+  /* the classic readable measure, capped by the parent */
+  max-width: min(100%, var(--measure));
+  font-size: var(--text-md);
+  color: var(--muted);
+}
+
+p {
+  max-width: min(100%, var(--measure));
+}
+
+section > p {
+  margin-bottom: var(--space-xs);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+}
+
+.note {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-top: var(--space-xs);
+  max-width: min(100%, var(--measure));
+}
+
+/* ---------- spacing scale demo ---------- */
+
+.scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.scale__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.scale__row span {
+  flex: 0 0 auto;
+  width: 9rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.scale__row i {
+  display: block;
+  height: 1.1rem;
+  background: var(--brand);
+  border-radius: 3px;
+  /* min-width so the smallest steps stay visible */
+  min-width: 3px;
+}
+
+/* ---------- type demo ---------- */
+
+.type-demo {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.t-xl {
+  font-size: var(--text-xl);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.t-lg {
+  font-size: var(--text-lg);
+  line-height: 1.2;
+  font-weight: 600;
+}
+.t-md {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+.t-base {
+  font-size: var(--text-base);
+}
+.t-sm {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* ---------- min / max cards ---------- */
+
+.cards {
+  display: grid;
+  /* auto-fit + minmax is itself a fluid technique — no breakpoint needed */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-sm);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-sm);
+}
+
+.card p {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.box {
+  margin-top: var(--space-xs);
+  border-radius: calc(var(--radius) - 3px);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: center;
+}
+
+.box--min {
+  width: min(100%, 60ch);
+  padding: var(--space-xs);
+  background: var(--brand-soft);
+  border: 1px dashed var(--brand);
+  color: var(--brand);
+}
+
+.box--max {
+  padding-inline: max(1rem, 4vw);
+  padding-block: var(--space-xs);
+  background: var(--bg);
+  border: 1px dashed var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- list ---------- */
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  max-width: min(100%, var(--measure));
+}
+
+.list li {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brand);
+  border-radius: 0 8px 8px 0;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+/* ---------- calc demo ----------
+   Two columns sharing one gutter, worked out with calc() rather than a grid. */
+
+.calc-demo {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.calc-demo__col {
+  width: calc(50% - var(--space-sm) / 2);
+  padding: var(--space-sm);
+  background: var(--card);
+  border: 1px dashed var(--brand);
+  border-radius: var(--radius);
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--brand);
+}
+
+/* ---------- table ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: var(--text-sm);
+}
+
+caption {
+  caption-side: bottom;
+  padding-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-align: left;
+}
+
+th,
+td {
+  text-align: left;
+  padding: var(--space-2xs) var(--space-xs);
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+thead th {
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  padding: var(--space-md) max(1rem, 4vw);
+  text-align: center;
+  background: var(--card);
+  border-top: 1px solid var(--line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

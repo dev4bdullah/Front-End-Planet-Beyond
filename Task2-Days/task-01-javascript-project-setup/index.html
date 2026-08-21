@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 1 — JavaScript Project Setup</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <header>
+        <p class="eyebrow">Day 2 · Task 1</p>
+        <h1>JavaScript Project Setup</h1>
+        <p class="lead">
+          npm scripts, ESLint and Prettier configured for browser ES modules — plus a page that
+          proves the module actually loaded.
+        </p>
+      </header>
+
+      <section class="card stack">
+        <h2>Setup check</h2>
+        <div class="out" id="out"></div>
+        <div class="row">
+          <button type="button" id="errBtn" class="ghost">Throw a caught error</button>
+          <button type="button" id="clearBtn" class="ghost">Clear</button>
+        </div>
+      </section>
+
+      <section class="card stack">
+        <h2>The commands</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>npm init -y</code></td>
+              <td>creates package.json</td>
+            </tr>
+            <tr>
+              <td><code>npm i -D eslint @eslint/js globals</code></td>
+              <td>the linter and its browser globals</td>
+            </tr>
+            <tr>
+              <td><code>npm i -D prettier eslint-config-prettier</code></td>
+              <td>formatter, plus the config that stops the two fighting</td>
+            </tr>
+            <tr>
+              <td><code>npm run lint</code></td>
+              <td>reports problems</td>
+            </tr>
+            <tr>
+              <td><code>npm run format</code></td>
+              <td>rewrites every file to house style</td>
+            </tr>
+            <tr>
+              <td><code>npm run check</code></td>
+              <td>lint + format check together, for CI</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card stack">
+        <h2>The two settings that matter</h2>
+        <ul class="plain small">
+          <li>
+            <strong><code>"type": "module"</code> in package.json</strong> — tells Node and the
+            tooling these are ES modules, not CommonJS. Without it, <code>import</code> is a syntax
+            error to the linter.
+          </li>
+          <li>
+            <strong><code>sourceType: "module"</code> + <code>globals.browser</code></strong> — the
+            same message for ESLint, plus it stops <code>document</code> and
+            <code>window</code> being flagged as undefined.
+          </li>
+        </ul>
+        <p class="note">
+          <code>eslint-config-prettier</code> is last in the ESLint array on purpose. It turns off
+          every stylistic rule that would argue with Prettier, so the two tools never fight over the
+          same line.
+        </p>
+      </section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

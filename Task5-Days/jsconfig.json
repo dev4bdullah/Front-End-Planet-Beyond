@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@shared/*": ["src/shared/*"],
+      "@tasks/*": ["src/tasks/*"],
+      "@providers/*": ["src/providers/*"],
+      "@model/*": ["src/tasks/task-01-crud-data-model/*"],
+      "@store/*": ["src/tasks/task-10-usereducer-crud-logic/lib/*"],
+      "@hooks/*": ["src/tasks/task-11-local-persistence/hooks/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
