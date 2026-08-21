@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Day 7 — React Native Basics",
+    "slug": "day7-react-native-basics",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0f1116"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dev4bdullah.day7"
+    },
+    "android": {
+      "package": "com.dev4bdullah.day7",
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "backgroundColor": "#4f46e5"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
