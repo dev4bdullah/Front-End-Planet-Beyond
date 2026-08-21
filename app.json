@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Day 8 — React Navigation & APIs",
+    "slug": "day8-react-navigation-apis",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "scheme": "day8",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0f1116"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dev4bdullah.day8",
+      "associatedDomains": ["applinks:day8.example.com"]
+    },
+    "android": {
+      "package": "com.dev4bdullah.day8",
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "backgroundColor": "#4f46e5"
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [{ "scheme": "https", "host": "day8.example.com" }],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
